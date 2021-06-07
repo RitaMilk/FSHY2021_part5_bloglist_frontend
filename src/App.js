@@ -3,6 +3,15 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login' 
 
+//part 5.2 logout button
+const ButtonLogout=(props)=>{
+  console.log("I am logout button")
+  console.log(`I am ${props.textB} button`)
+  return(
+        <button onClick={props.onClickEv } > {props.textB} </button>
+  )
+}
+//
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState('')
@@ -18,6 +27,11 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
+      //part 5.2 login stay until logout
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      ) 
+      //part 5.2
       setUser(user)
       setUsername('')
       setPassword('')
@@ -34,6 +48,16 @@ const App = () => {
       setBlogs( blogs )
     )  
   }, [])
+  //part 5.2 have to check local Storage when page is reloaded
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+  //part 5.2
 //part 5.1 two forms: login and addBlog
 const loginForm = () => (
   <form onSubmit={handleLogin}>
@@ -70,26 +94,33 @@ const loginForm = () => (
   </form>  
 )
  *///part 5.1
-  return (
+
+ //part 5.2 handle click of logOut button
+ const handleClick=()=>{
+  console.log("...handlinh logout button click:")
+  window.localStorage.removeItem('loggedBlogappUser')
+   setUser(null)
+}
+ //part 5.2
+return (
     <div>
       <h1>Blogs</h1>
       
       {user === null ?
         loginForm() :
         <div>
-        <p>{user.name} logged-in</p>
-        <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-      </div>
+          <p>{user.name} logged-in 
+              <ButtonLogout onClickEv={handleClick} textB={'logout'} />
+          </p>
+          
+          <h2>blogs</h2>
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+        </div>
       }
-      {/* <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )} */}
     </div>
-  )
+)
 }
 
 export default App
