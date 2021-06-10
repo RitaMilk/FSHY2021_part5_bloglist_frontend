@@ -3,6 +3,9 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login' 
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 //part 5.2 logout button
 const ButtonLogout=(props)=>{
@@ -97,7 +100,7 @@ const App = () => {
       author: newAuthor,
       url: newUrl,
     }
-
+    console.log("addBlog comp ja blogObject=",blogObject)
     blogService
       .create(blogObject)
         .then(returnedBlog => {
@@ -115,7 +118,7 @@ const App = () => {
   }
   //part 5.3
 //part 5.1 two forms: login and addBlog
-const loginForm = () => (
+/* part 5.5 loginForm is refactored into its own component const loginForm = () => (
   <form onSubmit={handleLogin}>
     <div>
       <h2>Log in to application</h2>
@@ -138,8 +141,22 @@ const loginForm = () => (
     </div>
     <button type="submit">login</button>
   </form>      
+) */
+//part 5.5 loginform is component
+//for loginForm togglable is not needed
+const loginForm = () => (
+  //<Togglable buttonLabel="log in">
+    <LoginForm
+      username={username}
+      password={password}
+      handleUsernameChange={({ target }) => setUsername(target.value)}
+      handlePasswordChange={({ target }) => setPassword(target.value)}
+      handleSubmit={handleLogin}
+    />
+  //</Togglable>
 )
-
+//part 5.5
+/* part 5.5 blogForm is refactored into its own component 
  const blogForm = () => (
   <form onSubmit={addBlog}>
     <div>title:
@@ -160,17 +177,25 @@ const loginForm = () => (
         onChange={handleUrlChange}
       />
     </div>
-    {/* <div>
-    <input
-      value={newBlog}
-      onChange={handleBlogChange}
-    />
-    </div> */}
     <button type="submit">save</button>
   </form>  
-)
+) */
  //part 5.1
-
+ //part 5.5 togglable blogForm
+ const blogForm = () => (
+  <Togglable buttonLabel="add blog">
+    <BlogForm
+      onSubmit={addBlog}
+      newTitle={newTitle}
+      newAuthor={newAuthor}
+      newUrl={newUrl}
+      handleTitleChange={({ target }) => setNewTitle(target.value)}
+      handleAuthorChange={({ target }) => setNewAuthor(target.value)}
+      handleUrlChange={({ target }) => setNewUrl(target.value)}
+      
+    />
+  </Togglable>
+)
  //part 5.2 handle click of logOut button
  const handleClick=()=>{
   console.log("...handlinh logout button click:")
