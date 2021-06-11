@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login' 
@@ -29,25 +29,7 @@ const App = () => {
   const [infoMessage, setInfoMessage] = useState(null)  
   const [typeMessage, setTypeMessage] = useState("positive") 
 
-  //part 5.3 addBlog
-  /* const handleBlogChange = (event) => {
-    console.log(event.target.value)
-    setNewBlog(event.target.value)
-  } */
-  const handleTitleChange = (event) => {
-    console.log(event.target.value)
-    setNewTitle(event.target.value)
-  }
-  const handleAuthorChange = (event) => {
-    console.log(event.target.value)
-    setNewAuthor(event.target.value)
-  }
-  const handleUrlChange = (event) => {
-    console.log(event.target.value)
-    setNewUrl(event.target.value)
-  }
-  //part 5.3
-  const handleLogin = async (event) => {
+    const handleLogin = async (event) => {
     event.preventDefault()
     
     try {
@@ -94,6 +76,7 @@ const App = () => {
   //part 5.2
   //part 5.3 add new Blog with authorization
   const addBlog = (event) => {
+    blogFormRef.current.toggleVisibility()
     event.preventDefault()
     const blogObject = {
       title: newTitle,
@@ -116,34 +99,7 @@ const App = () => {
         setInfoMessage(null)
       }, 5000)
   }
-  //part 5.3
-//part 5.1 two forms: login and addBlog
-/* part 5.5 loginForm is refactored into its own component const loginForm = () => (
-  <form onSubmit={handleLogin}>
-    <div>
-      <h2>Log in to application</h2>
-      username
-        <input
-        type="text"
-        value={username}
-        name="Username"
-        onChange={({ target }) => setUsername(target.value)}
-      />
-    </div>
-    <div>
-      password
-        <input
-        type="password"
-        value={password}
-        name="Password"
-        onChange={({ target }) => setPassword(target.value)}
-      />
-    </div>
-    <button type="submit">login</button>
-  </form>      
-) */
-//part 5.5 loginform is component
-//for loginForm togglable is not needed
+  
 const loginForm = () => (
   //<Togglable buttonLabel="log in">
     <LoginForm
@@ -155,35 +111,11 @@ const loginForm = () => (
     />
   //</Togglable>
 )
-//part 5.5
-/* part 5.5 blogForm is refactored into its own component 
- const blogForm = () => (
-  <form onSubmit={addBlog}>
-    <div>title:
-       <input
-        value={newTitle}
-        onChange={handleTitleChange}
-      />
-    </div>
-    <div>author:
-       <input
-        value={newAuthor}
-        onChange={handleAuthorChange}
-      />
-    </div>
-    <div>url:
-       <input
-        value={newUrl}
-        onChange={handleUrlChange}
-      />
-    </div>
-    <button type="submit">save</button>
-  </form>  
-) */
  //part 5.1
  //part 5.5 togglable blogForm
+ const blogFormRef = useRef()
  const blogForm = () => (
-  <Togglable buttonLabel="add blog">
+  <Togglable buttonLabel='add blog' ref={blogFormRef}>
     <BlogForm
       onSubmit={addBlog}
       newTitle={newTitle}
