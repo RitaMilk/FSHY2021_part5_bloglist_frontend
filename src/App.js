@@ -60,8 +60,12 @@ const App = () => {
   }
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+     blogService.getAll().then(blogs =>{
+      //console.log("returnd from db blogs=",blogs)
+      //part 5.9
+      blogs.sort((firstItem, secondItem) => firstItem.likes - secondItem.likes)
+      //part 5.9
+      setBlogs(blogs)}
     )  
   }, [])
   //part 5.2 have to check local Storage when page is reloaded
