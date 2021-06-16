@@ -14,14 +14,21 @@ const create = async newObject => {
   const config = {
     headers: { Authorization: token },
   }
-
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
 //part 5.3
-const getAll = () => {
-  const request = axios.get(baseUrl)
+const getAll = async() => {
+  const response =  await axios.get(baseUrl)
+  return response.data
+  //return request.then(response => response.data)
+}
+
+//part 5.8 update likes
+const update = (id, newObject) => {
+  const request = axios.put(`${baseUrl}/${id}`, newObject)
   return request.then(response => response.data)
 }
 
-export default { getAll,create,setToken }
+
+export default { getAll,create,update,setToken }

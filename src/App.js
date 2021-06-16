@@ -19,9 +19,9 @@ const ButtonLogout=(props)=>{
 const App = () => {
   const [blogs, setBlogs] = useState([])
   //const [newBlog, setNewBlog] = useState('')
-  const [newTitle, setNewTitle] = useState('')
+  /* part 5.6 const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
+  const [newUrl, setNewUrl] = useState('') */
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
@@ -73,25 +73,13 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  //part 5.2
-  //part 5.3 add new Blog with authorization
-  const addBlog = (event) => {
+  const addBlog = (blogObject) => {
+    console.log("hide the form by calling blogFormRef.current.toggleVisibility() after a new note has been created")
     blogFormRef.current.toggleVisibility()
-    event.preventDefault()
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    }
-    console.log("addBlog comp ja blogObject=",blogObject)
     blogService
       .create(blogObject)
-        .then(returnedBlog => {
+      .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        //setNewBlog('')
-        setNewTitle('')
-        setNewAuthor('')
-        setNewUrl('')
         setTypeMessage("positive")
         setInfoMessage("new blog is added")
       })
@@ -99,6 +87,7 @@ const App = () => {
         setInfoMessage(null)
       }, 5000)
   }
+  //part 5.6
   
 const loginForm = () => (
   //<Togglable buttonLabel="log in">
@@ -117,14 +106,7 @@ const loginForm = () => (
  const blogForm = () => (
   <Togglable buttonLabel='add blog' ref={blogFormRef}>
     <BlogForm
-      onSubmit={addBlog}
-      newTitle={newTitle}
-      newAuthor={newAuthor}
-      newUrl={newUrl}
-      handleTitleChange={({ target }) => setNewTitle(target.value)}
-      handleAuthorChange={({ target }) => setNewAuthor(target.value)}
-      handleUrlChange={({ target }) => setNewUrl(target.value)}
-      
+     createBlog={addBlog}
     />
   </Togglable>
 )
