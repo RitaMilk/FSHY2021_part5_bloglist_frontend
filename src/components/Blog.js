@@ -20,6 +20,9 @@ const Blog = ({ blog,
   const hideWhenVisible = { display: blogContentVisible ? 'none' : '' }
   const showWhenVisible = { display: blogContentVisible ? '' : 'none' }
   //
+  const toggleBlogContentVisible=() => {
+    setBlogContentVisible(!blogContentVisible)
+  }
   //const [buttonVisible, setButtonVisible] = useState(blog.user.id===loggedUser.name?true:false)
   //eslintconst [buttonVisible, setButtonVisible] = useState(true)
   //eslintconst showButtonWhenLoggedUser = { display: buttonVisible ? '' : 'none' }
@@ -71,20 +74,22 @@ const Blog = ({ blog,
       })
 
   }
-  console.log('Bloc comp')
-  console.log('blog.likes=',blog.likes)
+  //console.log('Bloc comp')
+  //console.log('blog.likes=',blog.likes)
   //console.log('infoMessage=',infoMessage)
-  //console.log("blog.user=",blog.user.id)
+  //console.log('blog.user=',blog.user.id)
   return(
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <br></br>loggedUser is {loggedUser.username}
 
       <div style={hideWhenVisible} >
-        {/* {blog.title} <ButtonShowBlog>onClickEv={} textB='view'</ButtonShowBlog> */}
-        {blog.title}<button onClick={() => setBlogContentVisible(true)}>view</button>
+
+        {/* Blog: {blog.title} -by- {blog.author} <button onClick={() => setBlogContentVisible(true)}>view</button> */}
+        Blog: {blog.title} -by- {blog.author} <button onClick={toggleBlogContentVisible}>view</button>
       </div>
-      <div style={showWhenVisible} >
-        {blog.title} <button onClick={() => setBlogContentVisible(false)}>hide</button>
+      <div style={showWhenVisible} className='wholeBlogContent' >
+        {/* {blog.title} <button onClick={() => setBlogContentVisible(false)}>hide</button> */}
+        {blog.title} <button onClick={toggleBlogContentVisible}>hide</button>
         <br></br>{blog.url}
         <br></br> likes {likes} <button onClick={updateBlog}>like</button>
 

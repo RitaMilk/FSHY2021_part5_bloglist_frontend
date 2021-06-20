@@ -9,7 +9,7 @@ import Togglable from './components/Togglable'
 
 //part 5.2 logout button
 const ButtonLogout=(props) => {
-  console.log('I am logout button')
+  //console.log('I am logout button')
   console.log(`I am ${props.textB} button`)
   return(
     <button onClick={props.onClickEv } > {props.textB} </button>
@@ -68,7 +68,7 @@ const App = () => {
       //part 5.9
       setBlogs(blogs)}
     )
-  }, [])
+  }, [user])
   //part 5.2 have to check local Storage when page is reloaded
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
