@@ -39,4 +39,21 @@ describe('Blog app', function() {
       cy.get('.blog').contains('Blogs')
     })
   })
+  describe('When logged in', function() {
+    beforeEach(function() {
+      // log in user here
+      cy.login({ username: 'mluukkai', password: 'salainen' })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('add blog').click()
+      cy.get('#title').type('a blog created by cypress')
+      cy.get('#author').type('Mike Cypress')
+      cy.get('#url').type('https://fullstackopen.com/osa5/end_to_end_testaus#tehtavat-5-17-5-22')
+      cy.get('#save-blog-button').click()
+      cy.contains('a blog created by cypress')
+    })
+  })
 })
+
+
