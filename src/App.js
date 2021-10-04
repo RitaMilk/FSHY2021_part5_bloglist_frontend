@@ -126,8 +126,8 @@ const App = () => {
   //part 5.2
   return (
     <div>
-      <h1>Blogs</h1>
-      <Notification message={infoMessage} typeM={typeMessage}/>
+      <h1 className="blog">Blogs</h1>
+      <Notification message={infoMessage} typeM={typeMessage} />
       {user === null ?
         loginForm() :
 
