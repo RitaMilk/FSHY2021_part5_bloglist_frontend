@@ -19,14 +19,15 @@ Cypress.Commands.add('login', ({ username, password }) => {
     cy.visit('http://localhost:3000')
   })
 })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('createBlog', ({ title, author,url,likes }) => {
+  const user=JSON.parse(localStorage.getItem('loggedBlogappUser'))
+  cy.request({
+    url: 'http://localhost:3003/api/blogs',
+    method: 'POST',
+    body: { title, author,url,likes,user  },
+    headers: {
+      'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+    }
+  })
+  cy.visit('http://localhost:3000')
+})

@@ -85,7 +85,7 @@ const Blog = ({ blog,
       <div style={hideWhenVisible} >
 
         {/* Blog: {blog.title} -by- {blog.author} <button onClick={() => setBlogContentVisible(true)}>view</button> */}
-        Blog: {blog.title} -by- {blog.author} <button onClick={toggleBlogContentVisible}>view</button>
+        Blog: {blog.title} -by- {blog.author} <button id='view' onClick={toggleBlogContentVisible}>view</button>
       </div>
       <div style={showWhenVisible} className='wholeBlogContent' >
         {/* {blog.title} <button onClick={() => setBlogContentVisible(false)}>hide</button> */}
